@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <malloc.h>
+
+typedef struct lista{
+    char info;
+    struct lista* prox;
+} Lista;
+
+typedef struct pilha{
+    Lista* prim;
+} Pilha;
+
+Pilha* cria(void){ // Criando a Pilha
+    Pilha* p = (Pilha*) malloc(sizeof(Pilha));
+    p->prim = NULL;
+    return p;
+}
+
+void push(Pilha* p, char v){ // Função para adicionar um valor na Pilha
+    Lista* novo = (Lista*) malloc(sizeof(Lista));
+    novo->info = v;
+    novo->prox = p->prim;
+    p->prim = novo;
+}
+
+int vazia(Pilha* p){ // Função para verificar se a pilha tá vazia
+    return (p->prim == NULL);
+}
+
+char pop(Pilha* p){ // Função para remover um elemento da pilha
+    Lista* l;
+    char v;
+    if ((p->prim == NULL)){
+        return;
+    }
+    l = p->prim;
+    v = l->info;
+    p->prim = l->prox;
+    free(l);
+    return v;
+}
+
+void libera (Pilha* p){ // Função para esvaziar a Pilha e liberá-la da memória
+    Lista* q = p->prim;
+    while (q != NULL) {
+        Lista* t = q->prox;
+        free(q);
+        q = t;
+    }
+    free(p);
+}
+
+int main(){
+    int N; // Número de verificações
+    char letra1; // Auxiliar
+    char lista1[4] = {0}, novosValores[4] = {0}; // Lista que armazenará os valores para verificação de igualdade
+
+    while (scanf("%d",&N) != EOF){
+        int qntd_brinde = 0; // Quantidade de brindes
+        int i,j; // Variável de apoio
+        Pilha* topo = cria(); // Ponteiro do tipo Pilha, será o do topo da Pilha
+
+        for (j = 0 ; j < N ; j++){ // Ele vai adicionar os elementos
+            if (topo->prim == NULL){ // Se o painel estiver vazio, adicionará as letras FACE
+                push(topo, 'F');
+                push(topo, 'A');
+                push(topo, 'C');
+                push(topo, 'E');
+            }
+            scanf("%c %c %c %c %c", &letra1, &novosValores[0], &novosValores[1], &novosValores[2], &novosValores[3]); // Valores a serem adicionados no painel
+
+            // Removendo e armazenando em uma lista para fazer a verificação se são iguais
+            for (i = 0; i < 4; i++){
+                lista1[i] = pop(topo);
+            }
+
+            //verificando se são iguais
+            if ((lista1[0] == novosValores[0]) && (lista1[1] == novosValores[1]) && (lista1[2] == novosValores[2]) && (lista1[3] == novosValores[3])){
+                qntd_brinde += 1;
+            } else { // Caso não sejam iguais, a pilha retornará da mesma forma que era antes, mais os novos valores adicionados
+                for (i = 3; i >= 0; i--){
+                    push(topo, lista1[i]); // Devolvendo os valores retirados para a verificação
+                }
+                for (i = 0; i < 4; i++){ // Adicionando os valores no painel
+                        push(topo, novosValores[i]);
+                }
+            }
+        }
+        printf("%d\n", qntd_brinde); // Mostrando a quantidade de brindes
+        libera(topo); // Liberando a pilha para outra verificação
+    } // FIM DO WHILE
+    return 0;
+}
