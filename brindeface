@@ -67,7 +67,7 @@ int main(){
                 push(topo, 'C');
                 push(topo, 'E');
             }
-            scanf(" %c %c %c %c %c", &novosValores[0], &novosValores[1], &novosValores[2], &novosValores[3]); // Valores a serem adicionados no painel
+            scanf(" %c %c %c %c", &novosValores[0], &novosValores[1], &novosValores[2], &novosValores[3]); // Valores a serem adicionados no painel
 
             // Removendo e armazenando em uma lista para fazer a verificação se são iguais
             for (i = 0; i < 4; i++){
