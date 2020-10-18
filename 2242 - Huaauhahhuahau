@@ -1,0 +1,19 @@
+n = input()
+lista = []
+cont = 0
+for i in n:
+    if i == 'a' or i == 'e' or i == 'i' or i == 'o' or i == 'u':
+        lista.append(i)
+
+listaI = lista[::-1]
+
+for i in range(len(lista)):
+    if lista[i] == listaI[i]:
+        cont += 1
+
+    else:
+        print("N")
+        break
+
+if cont == len(lista):
+    print("S")
