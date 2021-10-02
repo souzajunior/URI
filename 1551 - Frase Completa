@@ -1,0 +1,16 @@
+n = int(input())
+for i in range(n):
+    frase = input()
+    frase = frase.replace(',', '')
+    frase = frase.replace(' ', '')
+    l = len(list(set(frase)))
+
+
+    if l == 26:
+        print("frase completa")
+
+    elif l > 13:
+        print("frase quase completa")
+
+    else:
+        print("frase mal elaborada")

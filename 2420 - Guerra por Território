@@ -1,0 +1,9 @@
+n = int(input())
+cont = 0
+lista = list(map(int, input().split()))
+teste = (sum(lista)/2)
+for i in range(1, n+1):
+    aux = lista[i-1]
+    cont += aux
+    if cont == teste:
+        print(i)
